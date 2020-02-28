@@ -72,10 +72,10 @@
     }
   },
   "variables": {
-    "myVNETName": "myVNET",
-    "myVNETPrefix": "10.0.0.0/16",
-    "myVNETSubnet1Name": "Subnet1",
-    "myVNETSubnet1Prefix": "10.0.0.0/24",
+    "myVNETName": "training-vnet",
+    //"myVNETPrefix": "10.0.0.0/16",
+    "myVNETSubnet1Name": "default",
+    //"myVNETSubnet1Prefix": "10.0.0.0/24",
     "diagnosticStorageAccountName": "[concat('diagst', uniqueString(resourceGroup().id))]",
     "operatingSystemValues": {
       "Server2012R2": {
@@ -91,64 +91,11 @@
     },
     "availabilitySetPlatformFaultDomainCount": "2",
     "availabilitySetPlatformUpdateDomainCount": "5",
-    "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('myVNETName'),  variables('myVNETSubnet1Name'))]",
+    "subnetRef": "[resourceId('training-network-rg', 'Microsoft.Network/virtualNetworks/subnets', variables('myVNETName'), variables('myVNETSubnet1Name'))]",
+    //"subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('myVNETName'), variables('myVNETSubnet1Name'))]",
     "networkSecurityGroupName": "default-nsg"
   },
   "resources": [
-    {
-      "comments": "Default Network Security Group for template",
-      "type": "Microsoft.Network/networkSecurityGroups",
-      "apiVersion": "2019-08-01",
-      "name": "[variables('networkSecurityGroupName')]",
-      "location": "[parameters('location')]",
-      "properties": {
-        "securityRules": [
-          {
-            "name": "default-allow-3389",
-            "properties": {
-              "priority": 1000,
-              "access": "Allow",
-              "direction": "Inbound",
-              "destinationPortRange": "3389",
-              "protocol": "Tcp",
-              "sourceAddressPrefix": "*",
-              "sourcePortRange": "*",
-              "destinationAddressPrefix": "*"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "[variables('myVNETName')]",
-      "type": "Microsoft.Network/virtualNetworks",
-      "location": "[parameters('location')]",
-      "apiVersion": "2016-03-30",
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
-      ],
-      "tags": {
-        "displayName": "[variables('myVNETName')]"
-      },
-      "properties": {
-        "addressSpace": {
-          "addressPrefixes": [
-            "[variables('myVNETPrefix')]"
-          ]
-        },
-        "subnets": [
-          {
-            "name": "[variables('myVNETSubnet1Name')]",
-            "properties": {
-              "addressPrefix": "[variables('myVNETSubnet1Prefix')]",
-              "networkSecurityGroup": {
-                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]"
-              }
-            }
-          }
-        ]
-      }
-    },
     {
       "name": "[variables('diagnosticStorageAccountName')]",
       "type": "Microsoft.Storage/storageAccounts",
