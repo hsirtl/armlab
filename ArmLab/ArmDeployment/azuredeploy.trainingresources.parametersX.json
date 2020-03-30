@@ -1,0 +1,33 @@
+{
+    "contentVersion":  "1.0.0.0",
+    "$schema":  "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "parameters":  {
+                       "virtualMachineSize":  {
+                                                  "value":  "Standard_DS1_v2"
+                                              },
+                       "networkName":  {
+                                           "value":  "training-vnet"
+                                       },
+                       "virtualMachineAdminUserName":  {
+                                                           "value":  "user"
+                                                       },
+                       "dnsPrefixForPublicIP":  {
+                                                    "value":  "hsitvm"
+                                                },
+                       "virtualMachineNamePrefix":  {
+                                                        "value":  "MyVM0"
+                                                    },
+                       "operatingSystem":  {
+                                               "value":  "Server2016"
+                                           },
+                       "networkRgName":  {
+                                             "value":  "Xtraining-network-rg"
+                                         },
+                       "virtualMachineAdminPassword":  {
+                                                           "value":  "pwd"
+                                                       },
+                       "subnetName":  {
+                                          "value":  "default"
+                                      }
+                   }
+}
